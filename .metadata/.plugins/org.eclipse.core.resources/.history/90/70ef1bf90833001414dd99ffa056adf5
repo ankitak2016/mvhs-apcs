@@ -1,0 +1,87 @@
+
+import java.io.File;
+import java.util.Scanner;
+
+public class Names {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		// Accept the name on System.in
+		System.out.println("Please enter the name to be searched in the popularity file: ");
+		Scanner inSystem = new Scanner(System.in);
+		String inName = inSystem.next().toLowerCase();
+	
+		
+		Scanner inNamesFile = null;
+		
+	
+		try{
+			
+			//Open the File
+			inNamesFile= new Scanner(new File("names.txt"));
+		
+		
+		// Create array to store popularity index for the given name
+			 int popularityIndex[] = new int[11];
+		
+		//Use the Scanner Class to Search for the input name
+			 
+			System.out.println("File successfully opened");
+			
+			String tmp=null;
+			
+			while (inNamesFile.hasNextLine()){
+				
+				inNamesFile.nextLine();
+		
+				//if (inNamesFile.hasNext(inName)){
+		
+				tmp=inNamesFile.next().trim().toLowerCase();
+				System.out.println(tmp);
+				
+				if (tmp.equalsIgnoreCase(inName)){
+					
+					
+					for(int i=0;i<11;i++){
+			
+						
+						//Populate the Array with the popularity index for years 1900 to 2000
+						popularityIndex[i] = inNamesFile.nextInt();
+				
+					
+					}
+					//Cease scanning once the name has been found
+					break;
+				
+				
+				}
+				else{
+				
+				
+				}
+			}
+		
+		} catch (Exception e){
+			
+			System.out.println(e);
+		
+		}
+		finally {
+		
+			//closing the scanner/file
+			inNamesFile.close();
+		
+		}
+		
+		//Printf the popularity index for 1900 to 2000 for the input name
+		
+		
+		//Print the Chart
+		
+
+	}
+	
+	//Write a Method to Print the Chart
+
+}

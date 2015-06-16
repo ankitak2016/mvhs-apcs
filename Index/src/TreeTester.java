@@ -1,0 +1,63 @@
+import java.util.Scanner;
+import java.io.*;
+public class TreeTester{
+	
+	public static void main ( String [] args )
+	{
+		TreeTester bringorder = new TreeTester();
+		bringorder.mainMenu();
+	}
+	
+	public void mainMenu ()
+	{
+		BinarySearchTree list = new BinarySearchTree();
+
+		String choice;
+		Scanner console = new Scanner(System.in);
+
+		do
+		{
+			System.out.println();
+			System.out.println("(1) Read data from file");
+			System.out.println("(2) Print the list");
+			System.out.println("(3) Search the list");
+			System.out.println("(4) Delete Node");
+			System.out.println("(5) Count nodes in list");
+			System.out.println("(6) Clear entire list");
+			System.out.println("(Q) Quit\n");
+			System.out.print("Choice ---> ");
+			choice = console.nextLine() + " ";
+			System.out.println();
+
+			if ('1' <= choice.charAt(0) && choice.charAt(0) <= '7')
+			{
+				switch (choice.charAt(0))
+				{
+					case '1' :	
+						list.loadData();		
+						break;
+					case '2' :
+						System.out.println();
+						System.out.println("The tree printed in order\n");
+						list.printInOrder();
+						System.out.println();
+						break;
+					case '3' :
+						list.testFind();
+						break;
+					case '4' :
+						list.testDelete();
+						break;
+					case '6' :
+						list.clear();
+						break;
+					case '5' :
+						System.out.println("Number of nodes = " + list.countNodes());
+						System.out.println();
+						break;
+				}
+			}
+		}
+		while (choice.charAt(0) != 'Q' && choice.charAt(0) != 'q');
+	}
+}

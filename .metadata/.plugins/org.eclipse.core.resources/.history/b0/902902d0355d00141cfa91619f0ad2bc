@@ -1,0 +1,279 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+public class Indent{
+	
+	
+	public static void main(String args[]){
+		
+		Scanner in = new Scanner(System.in);
+		String entire_File= "";
+		String fileName = in.next();
+		String program_Name = "";
+		program_Name = getProgramName(fileName);
+		entire_File = setFile(fileName);
+		formatOutput(entire_File, program_Name);
+		
+		
+	}
+	
+	//Get program name
+	
+	public static String getProgramName(String file){
+		String name = "";
+		Scanner readFile = openFile(file);
+		while(readFile.hasNextLine()){
+			String st = readFile.next();
+	      if(st.equals("class"))
+	      {
+		  name = readFile.next()+".java";
+		  break;
+	  }
+	  }
+	  return name;
+  }
+	//Sets the file into one string
+	public static String setFile(String file){
+	  
+	  String entire = "";
+	  Scanner readFile = openFile(file);
+	  while(readFile.hasNextLine()){
+		  
+		  String st = readFile.next();
+		  
+		  entire = entire + " " + st;
+	  }
+	 
+	readFile.close();
+	return entire;  
+		  
+	}
+	
+	//Opening the file to scan
+	public static Scanner openFile(String file){
+		Scanner input = null;
+		try {
+			input = new Scanner(new File(file));
+		} catch (FileNotFoundException e ) {
+			System.err.println("ERROR : Cannot open " + file +" to read");
+			System.exit(1);
+		}
+		return input;
+	}
+		
+	
+	public static void formatOutput(String st, String program){
+		
+		PrintWriter writeFile = openToWrite(program);
+		int pos = 0;
+		int i = 0;
+		int p1 = 0;
+		for(i = 0; i<st.length();i++){
+		
+			char c = st.charAt(i);
+			if(st.length()-i>6){
+				if(getPublic(st.substring(i,i+7)))
+					p1++;
+				if(p1>1&&getPublic(st.substring(i,i+7))){
+					
+					i = formatIndent(st, i, writeFile);
+					continue;
+				}
+			}
+				
+			
+				if(st.length()-i>4)
+			
+				if(checkComment(c, st.charAt(i+1), st.charAt(i+2))){
+				pos = printComment(i, st, writeFile);
+				i = pos;
+				continue;
+				}
+			
+			
+			if(checkBracket(c, writeFile))
+		    continue;
+		    
+		    writeFile.print(c);
+		    boolean t = newLine(c,writeFile);
+		   
+		    
+		    
+				
+		}
+		
+		writeFile.close();
+		
+	}
+	public static void setIndent(int num, PrintWriter File){
+	
+		for(int i = 1;i<=num;i++){
+    		File.print('\t');
+    	}
+	}
+	public static int getIndent(char c1, PrintWriter File, int i){
+		
+		if(c1=='{'){
+			File.print('\n');
+			File.print(c1);
+			File.print('\n');
+			i++;
+			setIndent(i,File);
+		}
+		if(c1=='}'){
+			i--;
+			File.print('\n');
+			setIndent(i,File);
+			File.print(c1);
+			File.print('\n');
+			
+		}
+			
+		return i;
+	}
+	public static int formatIndent(String st, int p, PrintWriter File){
+		
+		//No of indents for {
+		int indent1 = 1;
+		int j;
+		setIndent(indent1, File);
+	    	for(j = p; j<st.length();j++){
+	    		char c = st.charAt(j);
+	    		if(st.length()-j>4&&checkLoop(st.substring(j,j+6))){
+					j = printLoop(j,st,File);
+					continue;
+				}
+			
+	    		if(c=='/'){
+	    			break;
+	    		}
+	    		if(newLine(c,File)){
+	    			setIndent(indent1, File);
+	    			continue;
+	    		}
+	    		int temp = indent1;
+	    		indent1 = getIndent(c, File, indent1);
+	    		if(indent1!=temp)
+	    			continue;
+	    		File.print(c);
+	    	}
+	    
+	    return j;
+		
+		
+	}
+	public static boolean getPublic(String pst){
+		
+		if(pst.equals("public"))
+			return true;
+		else
+			return false;
+	}
+	//Method for new line
+	
+	public static boolean newLine(char c1, PrintWriter File){
+		if(c1==';'){
+			File.print(';');
+			File.print('\n');
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	//Method to check for Loops
+	
+	public static boolean checkLoop(String s){
+		
+		if(s.equals("for ("))
+		return true;
+		else
+		return false;
+	}
+	
+	//Method to print Loops
+	
+	public static int printLoop(int j, String f, PrintWriter File){
+		
+		int k = j;
+		for(int a = j; a<f.length();a++){
+			char c = f.charAt(a);
+			if(c==')'){
+				
+				File.print(')');
+				k = a+1;
+				break;
+		}
+		File.print(c);
+	}
+	return k;
+}
+	
+	//Method to check for Brackets
+	
+	public static boolean checkBracket(char c1, PrintWriter file){
+		
+		if(c1 == '{' || c1 == '}'){
+		file.print('\n');
+		file.print(c1);
+		file.print('\n');
+		return true;
+	}
+	else
+	return false;
+	}
+	
+	//Method for comments
+	public static boolean checkComment(char c1, char c2, char c3){
+		
+		if(c1=='/'&&c2=='*'&&c3=='*')
+		return true;
+		else
+		return false;
+	
+	}
+	
+	//Method to print comments
+	public static int printComment(int i, String f, PrintWriter File){
+		
+		int pos = 0;
+		File.print('\n');
+		File.print('\t');
+		File.print("/**");
+		for(int j = i+3; j<f.length();j++){
+			
+			char c = f.charAt(j);
+			if( c == '/'){
+				File.print('/');
+				File.print('\n');
+				pos = j+1;
+				break;
+			}
+	
+			if(c=='*'){
+			File.print('\n');
+			File.print('\t');
+			File.print('*');
+			continue;
+		}
+	    File.print(c);	
+			
+		}
+		
+		return pos;
+	}
+	
+	//Write in the file
+	public static PrintWriter openToWrite (String fileName) {
+		PrintWriter output = null;
+		try {
+			output = new PrintWriter(new File(fileName));
+		} catch (IOException e) {
+			System.err.println("ERROR : Cannot open" + fileName + " for writng");
+			System.exit(1);
+		}
+		return output;
+	}
+}

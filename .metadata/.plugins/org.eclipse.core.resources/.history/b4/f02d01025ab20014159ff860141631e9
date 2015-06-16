@@ -1,0 +1,42 @@
+/**
+ * This is a class that tests the Deck class.
+ */
+public class DeckTester {
+
+	/**
+	 * The main method in this class checks the Deck operations for consistency.
+	 *	@param args is not used.
+	 */
+	public static void main(String[] args) {
+		/* *** TO BE IMPLEMENTED IN ACTIVITY 2 *** */
+		//Deck deck1 = new Deck(
+		String [] ranks1 = {"king","queen","jack"};
+		String [] suits1 = {"orange","green"};
+		int [] val1 = {13,12,11};
+		System.out.println("SMALL DECK");
+		System.out.println("----------");
+		System.out.println();
+		System.out.println("Original Deck");
+		Deck deck1 = new Deck(ranks1,suits1,val1);
+        System.out.println(deck1);
+        System.out.println();
+        System.out.println();
+        System.out.println("*** Deal Card *** " + deck1.deal());
+        System.out.println("*** Deal Card *** " + deck1.deal());
+        System.out.println("*** Deal Card *** " + deck1.deal());
+        System.out.println("*** Deal Card *** " + deck1.deal());
+        System.out.println();
+        System.out.println();
+        System.out.println("After 4 deals");
+        System.out.println(deck1);
+        //System.out.println();
+        //System.out.println();
+        System.out.println("*** Deal Card *** " + deck1.deal());
+        System.out.println("*** Deal Card *** " + deck1.deal());
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println("After 6 deals");
+        System.out.println(deck1);
+	}
+}

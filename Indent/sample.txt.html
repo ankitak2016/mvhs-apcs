@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1343.14">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #000000; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px Times; color: #000000; -webkit-text-stroke: #000000; min-height: 14.0px}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px Times; color: #000000; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">/** *<span class="Apple-converted-space">  </span>This program creates ten random numbers from 1 to 200, puts them in an *<span class="Apple-converted-space">  </span>array, and sorts them.<span class="Apple-converted-space">  </span>* *<span class="Apple-converted-space">  </span>@author Mr Greenstein *<span class="Apple-converted-space">  </span>@version November 24, 2013 */ public class CreateNumbers { final int ARRSIZE = 10; final int RANGE = 200;</span></p>
+<p class="p1"><span class="s1">int [] arr; public CreateNumbers() { arr = new int[ARRSIZE]; } public static void main(String [] args) { CreateNumbers cn = new CreateNumbers(); cn.Run(); } public void Run() { FillArray(arr); System.out.println("Before sorting");</span></p>
+<p class="p1"><span class="s1">for (int i = 0; i &lt; ARRSIZE; i++) { System.out.print(arr[i] + " "); } System.out.println(); BubbleSort(arr); System.out.println("\nAfter sorting"); for (int i = 0; i &lt; ARRSIZE; i++) { System.out.print(arr[i] + " "); } System.out.println(); } public void FillArray(int[] a) { int i = 0; while (i &lt; a.length) { a[i] = (int)(Math.random() * RANGE) + 1;</span></p>
+<p class="p1"><span class="s1">boolean found = false; for (int j = 0; j &lt; i; j++) { if (a[j] == a[i]) found = true; } if (! found) i++; } } public void BubbleSort(int[] a) { for (int j = 0; j &lt; a.length-1; j++) { for (int i = j+1; i &lt; a.length; i++) { if (a[i] &lt; a[j]) { int temp = a[i]; a[i] = a[j]; a[j] = temp; } } } } }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p3"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+</body>
+</html>

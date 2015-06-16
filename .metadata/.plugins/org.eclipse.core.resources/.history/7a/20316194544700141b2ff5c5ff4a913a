@@ -1,0 +1,292 @@
+import java.util.Scanner;
+
+
+	/**
+	 *  (Description of game)
+	 *
+	 *  @author Ankita Koratkar
+	 *  @version September 23 2014
+	 */
+
+	public class ScrappleJr {
+		public int [] scores = {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10,
+						 1, 1, 1, 1, 4, 4, 8, 4, 10};
+		private String tilesRemaining = "AAAAAAAAAABBCCDDDDEEEEEEEEEEEEEFFGGGHHIIIIIIIII" +
+						"JKLLLLMMNNNNNNOOOOOOOOPPQRRRRRRSSSSTTTTTTUUUUVVWWXYYZ";
+		int PlayerScore = 0;
+		int ComputerScore = 0;	
+		String letters_selectedUser = "";
+		String letters_selectedComp = "";	
+		int NUMTILES = 8;
+		String userWord ="";
+		
+		public static void main(String [] args) {
+			ScrappleJr sj = new ScrappleJr();
+			sj.printIntroduction();
+			sj.oneGame();
+		}
+		
+		public void oneGame() {
+			boolean userTurn = true;
+			boolean endOfGame = false;
+			
+			printIntroduction();
+			
+			while (! endOfGame) {
+			
+			    //User's Turn
+				if (userTurn) {
+					
+					//Output Tiles remaining
+					PrintTilesRemaining(tilesRemaining);
+					
+					//Print the score of the players
+					PrintScore(PlayerScore, ComputerScore);
+					
+					//Select the letters for the User and the Computer
+					letters_selectedUser = LetterSelection(tilesRemaining);
+					letters_selectedComp =  LetterSelection(tilesRemaining); 
+					
+					//Print the letters chosen
+					PrintLetter(letters_selectedUser, letters_selectedComp);
+					
+					//Ask for the word
+					userWord = getInput();
+					
+					//Check if word exists in the file
+					boolean check = WordCheck(userWord);
+					if(check==false) break;
+                    
+					//Remove tiles used
+					tilesRemaining = ChangeString(tilesRemaining, userWord);
+					
+					// Show tiles remaining
+					
+					//Show the score
+					
+					//Show tiles in the Comp and Users hand
+			
+				}
+				// Computer's turn
+				else {
+					
+					//Show Tiles in your hand and computers hand
+					 
+					//Its the computers turn : Hit enter
+					
+					//Find best word that can be made by the letters.
+					
+					//Show word chosen by computer
+					
+					//Take out letters from the string
+					
+					//Calculate tiles in Computers hand
+			
+				}
+				userTurn = ! userTurn;
+			}
+			
+			//Print ending of the game
+			System.out.println("No more words can be created.");
+			System.out.println();
+			System.out.println();
+			PrintScore(PlayerScore, ComputerScore);
+			System.out.println();
+			System.out.println("Thank you for playing ScrappleJr!");
+			
+			
+		}
+		
+		/**
+		 *  Print the introduction screen for Scrapple.
+		 */
+		public void printIntroduction() {
+			System.out.print(" _______     _______     ______     ______    ");
+			System.out.println(" ______    ______   __          _______");
+			System.out.print("/\\   ___\\   /\\  ____\\   /\\  == \\   /\\  __ \\   ");
+			System.out.println("/\\  == \\  /\\  == \\ /\\ \\        /\\  ____\\");
+			System.out.print("\\ \\___   \\  \\ \\ \\____   \\ \\  __<   \\ \\  __ \\  ");
+			System.out.println("\\ \\  _-/  \\ \\  _-/ \\ \\ \\_____  \\ \\  __\\");
+			System.out.print(" \\/\\______\\  \\ \\______\\  \\ \\_\\ \\_\\  \\ \\_\\ \\_\\ ");
+			System.out.println(" \\ \\_\\     \\ \\_\\    \\ \\______\\  \\ \\______\\");
+			System.out.print("  \\/______/   \\/______/   \\/_/ /_/   \\/_/\\/_/ ");
+			System.out.println("  \\/_/      \\/_/     \\/______/   \\/______/ TM");
+			System.out.println();
+			System.out.print("This game is a \"scaled down\" version of Scrabble. ");
+			System.out.println("The game starts with a pool of letter tiles, with");
+			System.out.println("the following group of 100 tiles:\n");
+			
+			for (int i = 0; i < tilesRemaining.length(); i ++) {
+				System.out.printf("%c ", tilesRemaining.charAt(i));
+				if (i == 49) System.out.println();
+			}
+			System.out.println("\n");
+			System.out.printf("The game starts with %d tiles being chosen at ran", NUMTILES);
+			System.out.println("dom to fill the player's hand. The player must");
+			System.out.printf("then create a valid word, with a length from 4 to %d ", NUMTILES);
+			System.out.println("letters, from the tiles in his/her hand. The");
+			System.out.print("\"word\" entered by the player is then checked. It is first ");
+			System.out.println("checked for length, then checked to make ");
+			System.out.print(" sure it is made up of letters from the letters in the current hand, ");
+			System.out.println("and then it is checked against");
+			System.out.print("the word text file. If any of these tests fail, the game");
+			System.out.println(" terminates. If the word is valid, points");
+			System.out.print("are added to the player's score according to the following table ");
+			System.out.println("(These scores are taken from the");
+			System.out.println("game of Scrabble):");
+			
+			// Print line of letter scores
+			char c = 'A';
+			for (int i = 0; i < 26; i++) {
+				System.out.printf("%3c", c);
+				c = (char)(c + 1);
+			}
+			System.out.println();
+			for (int i = 0; i < scores.length; i++) System.out.printf("%3d", scores[i]);
+			System.out.println("\n");
+			
+			System.out.print("Once the player's score has been updated, more tiles are ");
+			System.out.println("chosen at random from the remaining pool");
+			System.out.printf("of letters, to fill the player's hand to %d letters. ", NUMTILES);
+			System.out.println("The player again creates a word, and the process");
+			System.out.print("continues. The game ends when the player enters an invalid ");
+			System.out.println("word, or the letters in the pool and");
+			System.out.println("player's hand run out. Ready? Let's play!\n");
+			
+			Prompt.getString("HIT ENTER on the keyboard to continue:");
+
+		}
+		
+		 /**
+		 *  Print the introduction screen for Scrapple.
+		 */
+		 
+		 public void ScoreCalculation(){
+		 }
+		 
+		 /**
+		 *  Calculate no of char remaining
+		 */
+		 
+		 
+		 public String LetterSelection(String tiles){
+			 
+			 int randomIndex = 0;
+			 int randomIndexCheck[] = new int[8];
+			 String ls;
+			 int l = tiles.length();
+			 for(int i =0; i<8;i++){
+				 
+				 randomIndex = 1 +(int)(l*Math.random());
+				 randomIndexCheck[i] = randomIndex;
+			 }
+			 
+			 //To check that no indices are repeated
+			 for(int i = 0;i<8;i++){
+				 
+				 if(randomIndexCheck[i] == randomIndexCheck[i+1]){
+					 randomIndexCheck[i+1] = 1+ (int)(12*Math.random());
+				 }
+			 }
+			 
+			 //Getting the letter
+			 for(int i = 0; i<8;i++){
+				 
+				ls = tiles.charAt(randomIndexCheck[i]);
+			}
+				 
+			return ls;	 
+		 }
+		 
+		/**
+		 *  Print char remaining
+		 */
+		 public void PrintTilesRemaining(String tiles){
+			 
+			
+			 System.out.println(tiles);
+			 
+		 }
+		 
+		 /**
+		 *  Deleting used characters
+		 */
+		public String ChangeString(String tiles , String word){
+			 
+			 int length = word.length();
+			 for(int i = 0; i < tiles.length(); i++){
+				 
+				 //To remove the character from a string
+				int LastIndex = 
+			 }
+			  return tiles;
+		}
+		
+		/**
+		 *  Printing Scores
+		 */		
+		 
+		 public void PrintScore(int uscore, int cscore){
+			 
+			System.out.println("Player Score:     " +uscore);
+			System.out.println("Computer Score:   " +cscore);
+		}
+		
+		public void PrintLetter (String letter1, String letter2){
+			
+			System.out.printf("THE TILES IN YOUR HAND ARE: " + letter1);
+			System.out.printf("THE TILES IN THE COMPUTER HAND ARE : " +letter2);
+		}
+		
+		/**
+		 *  Enter a list of 3 to 12 letters. It also checks
+		 *  all letters to insure they fall between 'a' and 'z'.
+		 *
+		 *  @return  A string of the letters
+		 */
+		public static String getInput ( )
+		{
+			String letters ="";
+			boolean done;
+			do
+			{
+				done = true;
+				letters = Prompt.getString("Please enter a word created from your current set of tiles ->");
+				if(letters.length()<4||letters.length() >8){
+				done = false;}
+			
+			//check each letter
+			
+			for(int cnt = 0;cnt<letters.length();cnt++){
+				char c = letters.charAt(cnt);
+				if(c<'A' || c>'Z'){ 
+				done = false;}
+				}
+		    }
+		
+		while(!done);
+		return letters;
+			
+		}
+		
+		public boolean WordCheck(String wordgiven){
+			
+			//returns false if word is not found to end the game
+			boolean found = false;
+			String word;
+			Scanner infile = OpenFile.openToRead("wordlist.txt");
+			while(infile.hasNext()){
+				word = infile.next();
+				if(word.equalsIgnoreCase(wordgiven)){
+					found = true;	
+				}
+			}
+					
+			return found;		
+		}
+		
+		 
+		 
+	}
+
+

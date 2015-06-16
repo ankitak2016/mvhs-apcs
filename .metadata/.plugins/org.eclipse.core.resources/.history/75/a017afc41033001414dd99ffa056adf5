@@ -1,0 +1,105 @@
+
+import java.io.File;
+import java.util.Scanner;
+
+public class Names {
+
+	public static void main(String[] args) {
+		//If the name is found or not
+		boolean NameFound = false;
+		// TODO Auto-generated method stub
+		
+		// Accept the name on System.in
+		System.out.println("Please enter the name you're searching for  -> ");
+		Scanner inSystem = new Scanner(System.in);
+		
+		//Converting into lower case for comparison
+		String inName = inSystem.next().toLowerCase();
+		
+		Scanner inNamesFile = null;
+		
+	
+		try{
+			
+			//Open the Names File
+			inNamesFile= new Scanner(new File("names.txt"));
+		
+		
+			// Create array to store popularity index for the given name
+			int popularityIndex[] = new int[11];
+		
+			 //Use the Scanner Class to Search for the input name
+			 
+			
+			 //temporary name storage
+			String output=null;
+
+			
+			//Start scanning the file
+			while (inNamesFile.hasNextLine()){
+				
+				inNamesFile.nextLine();
+				
+				output=inNamesFile.next().toLowerCase();
+				
+				//if input name is found in the file
+				if (output.equals(inName)){
+					
+					
+					for(int i=0;i<11;i++){
+						
+						//Populate the Array with the popularity index for years 1900 to 2000
+						popularityIndex[i] = inNamesFile.nextInt();
+						
+				
+					
+					} 
+					
+					//Name is found
+					NameFound=true;
+					
+					//Output formatted results
+					System.out.printf("%s %d %d %d %d %d %d %d %d %d %d %d", inName, popularityIndex [0], popularityIndex[1], popularityIndex[2], popularityIndex[3],popularityIndex[4],popularityIndex[5], popularityIndex[6], popularityIndex[7], popularityIndex[8], popularityIndex[9], popularityIndex[10] );
+					printChart(inName, popularityIndex);
+					
+					//Cease scanning once the name has been found
+					break;
+				
+				
+				}
+				
+			}
+			if(NameFound == false){
+				System.out.println(inName + " is not found in the Database");
+			}
+		
+		} catch (Exception e){
+			
+			System.out.println(e);
+		
+		}
+		finally {
+		
+			//closing the scanner/file
+			inNamesFile.close();
+		
+		}
+		
+		
+		
+		
+		//Print the Chart
+		
+		
+
+	}
+	
+	//Write a Method to Print the Chart
+	public static void printChart (String name, int pIndex[]){
+	
+		System.out.println("\n\n");
+		System.out.printf("%d %d %d %d %d %d %d %d %d %d %d", 1900,1910,1920,1930,1940,1950,1960,1970,1980,1990,2000);
+		
+	}
+
+}

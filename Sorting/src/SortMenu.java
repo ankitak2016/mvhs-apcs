@@ -1,0 +1,177 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+
+public class SortMenu
+{
+        ArrayList <Integer> intlist;
+
+        public SortMenu ( )
+        {
+                Scanner in = new Scanner(System.in);
+                intlist = new ArrayList <Integer> ();
+        }
+
+        public static void main (String [] args)
+        {
+                SortMenu sortit = new SortMenu();
+                sortit.run();
+        }
+
+        public void run ( )
+        {
+                char choice = '1';
+                welcome();
+                do
+                {
+                        int size = getSize();
+                        int max = getMax();
+                        createList(size, max, intlist);
+                        String m = Integer.toString(max);
+                        int maxl = m.length();
+                        printList(intlist);
+                        choice = chooseFromMenu("ArrayList of Integer", intlist, maxl);
+                        choice = repeatOrEnd(choice);
+                } while (choice == 'c' || (choice >= '1' && choice <= '4'));
+                goodBye();
+        }
+
+        //  A welcome message.
+        public void welcome ( )
+        {
+                System.out.println("\n\n\n\n\t\t\tAre you feeling OUT OF SORTS?\n\n");
+                System.out.println("Welcome to the SORTING PROGRAM, a program that will take an Integer ArrayList");
+                System.out.println("that is initially unordered, and then order the array using one of 3 quadratic");
+                System.out.println("sorting algorithms, or an n log n sort.  These include a Bubble Sort, a Selection");
+                System.out.println("Sort, an Insertion Sort, and a Merge Sort.  HAPPY SORTING!\n\n");
+        }
+
+        //  Gets the size of the array, from 5 to 10000.
+        public int getSize ( )
+        {
+                Scanner in1 = new Scanner(System.in);
+                System.out.println("Please enter the number of random integers you would like to generate (5 - 10000) -->");
+                int size = in1.nextInt();
+                return size;
+        }
+
+        //  Gets the max value of the random values to be generated, from 1 to max.  The max should be from 5 to 10000.
+        public int getMax ( )
+        {
+                Scanner in2 = new Scanner(System.in);
+                System.out.println("Please enter the maximum value you would like to generate (5 - 10000) -->");
+                int max = in2.nextInt();
+                return max;
+        }
+
+        //  Generates an ArrayList of Integer values, with a size of s, and values from 1 to m.
+        public void createList (int s, int m, ArrayList <Integer> a)
+        {
+        	//System.out.println("Creating list");
+                intlist = new ArrayList<Integer>(s);
+                //System.out.println("GOing into for loop");
+                for(int i = 0; i<s;i++){
+                	//ystem.out.println("IN FOR LOOP");
+                        int rand = (int)(Math.random()*m) + 1;
+                        //System.out.println(rand);
+                        intlist.add(new Integer(rand));
+                }
+        }
+
+        //  Prints the ArrayList of Integer, printing a new line after every 15 values.
+        public void printList (ArrayList <Integer> a)
+        {
+        	System.out.println();
+            int s = 0;
+                for(int i = 0;i<a.size();i++){
+
+                        if(s!=0 && s % 15==0){
+                        System.out.println();
+                        System.out.printf("%5d", a.get(i));
+                        System.out.print(" ");//+ " ");
+                }
+                else{
+                        System.out.printf("%5d", a.get(i));//+ " ");]
+                        System.out.print(" ");
+                }
+                        s++;
+                }
+                System.out.println();
+        }
+
+        //  Calls menuOfSorts, getSortType, one of the sorts, then printList and printSteps.
+        public char chooseFromMenu (String arraytype, ArrayList <Integer> list, int l)
+        {
+        	    //Sorts ob = new Sorts();
+                menuOfSorts(arraytype);
+                char ch = getSortType();
+                //System.out.
+                int step = 0;
+                switch(ch){
+                        case '1':{
+                        	//System.out.println("IN CASE !");
+                                step = Sorts.bubbleSort(list);
+                                break;
+                        }
+                        case '2':{
+                                step = Sorts.selectionSort(list);
+                                break;
+                        }
+                        case '3':{
+                                step = Sorts.insertionSort(list);
+                                break;
+                        }
+                        case '4':{
+                                step = Sorts.mergeSort(list, 0, list.size());
+                                break;
+                        }
+                }
+                printList(list);
+                printSteps(step);
+
+                return ch;
+        }
+
+        //  Prints the list of sort options.
+        public void menuOfSorts (String title)
+        {
+                System.out.println("\n\n1. " + title + " Bubble Sort");
+                System.out.println("2. " + title + " Selection Sort");
+                System.out.println("3. " + title + " Insertion Sort");
+                System.out.println("4. " + title + " Merge Sort\n");
+        }
+
+        //  Prompts the user to enter a character value from '1' to '4', indicating the sort
+        //  to be run.
+        public char getSortType ( )
+        {
+                Scanner in3 = new Scanner(System.in);
+                System.out.println("Enter a choice (1-4) from the menu above ->");
+                char c = in3.next().charAt(0);
+                return c;
+        }
+
+        //  Prints the number of steps taken by the sort.
+        public void printSteps (int s)
+        {
+        	    System.out.println();
+                System.out.println(s + " steps taken in this sort");
+        }
+
+        //  Prompts the user to enter a 'c' or 'C' to continue, any other character to exit.
+        public char repeatOrEnd (char c)
+        {
+                Scanner in4 = new Scanner(System.in);
+                System.out.println("Enter the letter 'c' to continue or any other to exit ->");
+                char d = in4.next().charAt(0);
+                //char d = (char)ds;
+                return d;
+        }
+
+        //  A goodbye message.
+        public void goodBye ( )
+        {
+                System.out.println("\n\n\n\t\tThanks for working with the SORTING PROGRAM.");
+                System.out.println("Hopefully, you were able to put your affairs in order(!).  Please run the program again");
+                System.out.println("if you're interested in seeing quadratic sorting algorithms at work.\n\n\n\n");
+        }
+}
